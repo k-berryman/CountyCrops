@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0c0e0c;
+  --color-foreground: #e8ece8;
+  --color-primary: #00e676;
+  --color-primary-dark: #00c853;
+  --color-amber: #ffd54f;
+  --color-dark: #111111;
+}
+
+body {
+  background: #0c0e0c;
+  color: #e8ece8;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 230, 118, 0);
+  }
+}
+
+.pulse-dot {
+  animation: pulse-glow 1.5s infinite;
+}
