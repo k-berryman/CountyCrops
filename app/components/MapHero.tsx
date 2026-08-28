@@ -20,12 +20,12 @@ export default function MapHero() {
 
     map.on("load", () => {
       // Add a pulsing dot source/layer for animation effect
-      const farms = [
+     const farms: Array<{ name: string, lngLat: [number, number] }> = [
         { name: "Onancock", lngLat: [-75.7, 37.6] },
         { name: "Cape Charles", lngLat: [-76.0, 37.2] },
         { name: "Parksley", lngLat: [-75.6, 37.8] },
-      ];
-      const home = { name: "Home", lngLat: [-75.8, 37.7] };
+     ];
+     const home: { name: string, lngLat: [number, number] } = { name: "Home", lngLat: [-75.8, 37.7] };
 
       farms.forEach((farm, i) => {
         const el = document.createElement("div");

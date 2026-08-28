@@ -20,12 +20,6 @@ export default function Home() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    
-    // Simulate submission for now if endpoint is missing
-    if (FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_ENDPOINT") {
-      alert("Please add your Formspree endpoint in the code!");
-      return;
-    }
 
     try {
       await fetch(FORMSPREE_ENDPOINT, {
@@ -44,11 +38,6 @@ export default function Home() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-
-    if (FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_ENDPOINT") {
-      alert("Please add your Formspree endpoint in the code!");
-      return;
-    }
 
     try {
       await fetch(FORMSPREE_ENDPOINT, {
