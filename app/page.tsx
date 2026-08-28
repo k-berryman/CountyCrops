@@ -12,7 +12,7 @@ export default function Home() {
   const fadeIn = {
     initial: { opacity: 0, y: 24 },
     whileInView: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.6, ease: "easeInOut" as const },    
     viewport: { once: true }
   };
 
@@ -73,7 +73,7 @@ export default function Home() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+          transition={{ duration: 0.8, ease: "easeOut" as const, delay: 0.5 }}
           className="z-10 relative"
         >
           <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight text-white">
