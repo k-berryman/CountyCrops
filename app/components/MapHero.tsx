@@ -18,26 +18,41 @@ export default function MapHero() {
       interactive: false,
     });
 
-    // Your two pin locations based on pink squares
-    const pin1: [number, number] = [-75.75, 37.82]; // Top pin
-    const pin2: [number, number] = [-75.90, 37.38]; // Bottom pin
+    // Accomac (top pin) and Nassawadox (bottom pin)
+    const pinA: [number, number] = [-75.68, 37.72];
+    const pinB: [number, number] = [-75.97, 37.45];
 
     map.on("load", () => {
-      // Green line connecting the two pins
-      map.addLayer({
-        id: "delivery-line",
-        type: "line",
-        source: {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "LineString",
-              coordinates: [pin1, pin2],
-            },
+      // Green line between the two pins
+      map.addSource("route", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: [pinA, pinB],
           },
         },
+      });
+
+      map.addLayer({
+        id: "route-glow",
+        type: "line",
+        source: "route",
+        layout: {},
+        paint: {
+          "line-color": "#00e676",
+          "line-width": 10,
+          "line-opacity": 0.2,
+          "line-blur": 6,
+        },
+      });
+
+      map.addLayer({
+        id: "route-main",
+        type: "line",
+        source: "route",
         layout: {},
         paint: {
           "line-color": "#00e676",
@@ -46,55 +61,60 @@ export default function MapHero() {
         },
       });
 
-      // Pin 1 (top)
-      const pin1El = document.createElement("div");
-      pin1El.style.width = "12px";
-      pin1El.style.height = "12px";
-      pin1El.style.backgroundColor = "#00e676";
-      pin1El.style.borderRadius = "50%";
-      pin1El.style.boxShadow = "0 0 10px #00e676";
-      new mapboxgl.Marker(pin1El).setLngLat(pin1).addTo(map);
+      // Pin A — Accomac (green)
+      const elA = document.createElement("div");
+      elA.style.width = "14px";
+      elA.style.height = "14px";
+      elA.style.backgroundColor = "#00e676";
+      elA.style.borderRadius = "50%";
+      elA.style.boxShadow = "0 0 12px #00e676";
+      elA.style.border = "2px solid white";
+      new mapboxgl.Marker(elA).setLngLat(pinA).addTo(map);
 
-      // Pin 2 (bottom)
-      const pin2El = document.createElement("div");
-      pin2El.style.width = "12px";
-      pin2El.style.height = "12px";
-      pin2El.style.backgroundColor = "#ffd54f";
-      pin2El.style.borderRadius = "50%";
-      pin2El.style.boxShadow = "0 0 10px #ffd54f";
-      new mapboxgl.Marker(pin2El).setLngLat(pin2).addTo(map);
+      // Pin B — Nassawadox (amber)
+      const elB = document.createElement("div");
+      elB.style.width = "14px";
+      elB.style.height = "14px";
+      elB.style.backgroundColor = "#ffd54f";
+      elB.style.borderRadius = "50%";
+      elB.style.boxShadow = "0 0 12px #ffd54f";
+      elB.style.border = "2px solid white";
+      new mapboxgl.Marker(elB).setLngLat(pinB).addTo(map);
 
-      // Animated green dot traveling from pin1 to pin2, then looping
+      // Animated delivery dot
       const dotEl = document.createElement("div");
-      dotEl.style.width = "10px";
-      dotEl.style.height = "10px";
+      dotEl.style.width = "12px";
+      dotEl.style.height = "12px";
       dotEl.style.backgroundColor = "#00e676";
       dotEl.style.borderRadius = "50%";
-      dotEl.style.boxShadow = "0 0 15px #00e676";
+      dotEl.style.boxShadow = "0 0 15px #00e676, 0 0 30px #00e676";
       dotEl.style.border = "2px solid white";
+      dotEl.style.zIndex = "999";
 
-      const dotMarker = new mapboxgl.Marker(dotEl).setLngLat(pin1).addTo(map);
+      const dotMarker = new mapboxgl.Marker(dotEl).setLngLat(pinA).addTo(map);
 
+      // Animate: dot travels from A to B, loops back to A
       let progress = 0;
-      const speed = 0.003; // Medium speed
+      const speed = 0.0035;
 
       const animate = () => {
         progress += speed;
-        if (progress >= 1) progress = 0; // Loop back to start
+        if (progress >= 1) {
+          progress = 0;
+        }
 
-        const lng = pin1[0] + (pin2[0] - pin1[0]) * progress;
-        const lat = pin1[1] + (pin2[1] - pin1[1]) * progress;
-
+        const lng = pinA[0] + (pinB[0] - pinA[0]) * progress;
+        const lat = pinA[1] + (pinB[1] - pinA[1]) * progress;
         dotMarker.setLngLat([lng, lat]);
 
-        // Blink effect
-        const blink = 0.5 + 0.5 * Math.sin(progress * Math.PI * 8);
-        dotEl.style.opacity = String(blink);
+        // Slow blink: opacity pulses using sine wave
+        const blink = 0.4 + 0.6 * Math.sin(progress * Math.PI * 6);
+        dotEl.style.opacity = blink.toFixed(2);
 
         requestAnimationFrame(animate);
       };
 
-      setTimeout(animate, 800);
+      setTimeout(animate, 600);
     });
 
     return () => map.remove();

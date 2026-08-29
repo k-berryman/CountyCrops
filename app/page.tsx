@@ -206,7 +206,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { title: "Takes 30 Seconds", desc: "No app download required to sign up. Just tell us your name and what you grow." },
-              { title: "You Keep 88%", desc: "No booth fees. No listing fees. We only earn when you earn." },
+              { title: "You Keep 88%", desc: "No upfront fees. We only earn when you earn." },
               { title: "Insured & Protected", desc: "Fully insured. Zero liability on you. Packaged & delivered with care." },              { title: "Delivered Fresh", desc: "Weekend delivery on Fridays and Saturdays. Farm to door the same day." },
               { title: "Paid Securely", desc: "Payments processed securely via Stripe. Direct deposit to your account." },
               { title: "We Handle Customers", desc: "If a customer has an issue, we resolve it. You focus on farming." }
