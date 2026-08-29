@@ -81,22 +81,17 @@ export default function Home() {
             Local food, delivered.
           </h1>
           <p className="text-base md:text-xl text-gray-300 mb-5 max-w-xl mx-auto px-2">
-            Delivering ESVA produce and goods to your front door.
+            Digital Farmers Market. Delivering ESVA produce and goods to your front door.
           </p>
 
-          {/* Tags - Digital Farmers Market App on its own line */}
-          <div className="flex flex-col items-center gap-2 mb-5">
-            <span className="bg-primary text-black px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
-              Digital Farmers Market App
+          {/* Tags - County tags only */}
+          <div className="flex justify-center gap-2 mb-5">
+            <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-3 py-1 rounded-full text-xs font-bold">
+              Accomack
             </span>
-            <div className="flex gap-2">
-              <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-3 py-1 rounded-full text-xs font-bold">
-                Accomack
-              </span>
-              <span className="bg-purple-500/20 text-purple-400 border border-purple-500/40 px-3 py-1 rounded-full text-xs font-bold">
-                Northampton
-              </span>
-            </div>
+            <span className="bg-purple-500/20 text-purple-400 border border-purple-500/40 px-3 py-1 rounded-full text-xs font-bold">
+              Northampton
+            </span>
           </div>
 
           {/* Carousel inside hero */}
@@ -136,11 +131,6 @@ export default function Home() {
               })}
             </div>
           </div>
-
-          {/* CSA Messaging */}
-          <p className="text-sm md:text-base text-gray-400 mb-5 max-w-lg mx-auto px-4">
-            Modern community-supported agriculture. We coordinate produce from multiple farms into one perfect delivery box for each customer — you never have to juggle pickups from different farms.
-          </p>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <a href="#order" className="px-6 py-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)]">
@@ -169,7 +159,9 @@ export default function Home() {
       <section id="how-it-works" className="py-16 px-4 max-w-6xl mx-auto">
         <motion.div {...fadeIn} className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">How It Works</h2>
-          <p className="text-lg md:text-xl text-gray-400">You grow it. We handle the rest.</p>
+          <p className="text-base md:text-lg text-gray-400 max-w-xl mx-auto">
+            Modern community-supported agriculture. We coordinate produce from multiple farms into one perfect delivery box for each customer — you never have to juggle pickups from different farms.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">
