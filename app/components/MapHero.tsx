@@ -12,16 +12,20 @@ export default function MapHero() {
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://clark/mapbox/dark-v10",
+      style: "mapbox://styles/mapbox/dark-v10",
       center: [-75.78, 37.60],
       zoom: 9.5,
       interactive: false,
     });
 
+    // Your two pin locations based on pink squares
+    const pin1: [number, number] = [-75.75, 37.82]; // Top pin
+    const pin2: [number, number] = [-75.90, 37.38]; // Bottom pin
+
     map.on("load", () => {
-      // Simple vertical green line (Route 13 approximation)
+      // Green line connecting the two pins
       map.addLayer({
-        id: "route-line",
+        id: "delivery-line",
         type: "line",
         source: {
           type: "geojson",
@@ -30,10 +34,7 @@ export default function MapHero() {
             properties: {},
             geometry: {
               type: "LineString",
-              coordinates: [
-                [-75.78, 37.85], // Top of screen
-                [-75.78, 37.15], // Bottom of screen
-              ],
+              coordinates: [pin1, pin2],
             },
           },
         },
@@ -41,58 +42,69 @@ export default function MapHero() {
         paint: {
           "line-color": "#00e676",
           "line-width": 3,
-          "line-opacity": 0.8,
+          "line-opacity": 0.7,
         },
       });
 
-      // Animated green dot traveling top to bottom
-      let posY = 37.85;
-      const speed = 0.004; // Adjust for desired speed
+      // Pin 1 (top)
+      const pin1El = document.createElement("div");
+      pin1El.style.width = "12px";
+      pin1El.style.height = "12px";
+      pin1El.style.backgroundColor = "#00e676";
+      pin1El.style.borderRadius = "50%";
+      pin1El.style.boxShadow = "0 0 10px #00e676";
+      new mapboxgl.Marker(pin1El).setLngLat(pin1).addTo(map);
 
-      const animateDot = () => {
-        posY -= speed;
-        if (posY < 37.15) posY = 37.85; // Loop back to top
+      // Pin 2 (bottom)
+      const pin2El = document.createElement("div");
+      pin2El.style.width = "12px";
+      pin2El.style.height = "12px";
+      pin2El.style.backgroundColor = "#ffd54f";
+      pin2El.style.borderRadius = "50%";
+      pin2El.style.boxShadow = "0 0 10px #ffd54f";
+      new mapboxgl.Marker(pin2El).setLngLat(pin2).addTo(map);
 
-        // Remove old dot
-        if ((window as any).currentDot) {
-          (window as any).currentDot.remove();
-        }
+      // Animated green dot traveling from pin1 to pin2, then looping
+      const dotEl = document.createElement("div");
+      dotEl.style.width = "10px";
+      dotEl.style.height = "10px";
+      dotEl.style.backgroundColor = "#00e676";
+      dotEl.style.borderRadius = "50%";
+      dotEl.style.boxShadow = "0 0 15px #00e676";
+      dotEl.style.border = "2px solid white";
 
-        // Create new dot
-        const dotEl = document.createElement("div");
-        dotEl.style.width = "10px";
-        dotEl.style.height = "10px";
-        dotEl.style.backgroundColor = "#00e676";
-        dotEl.style.borderRadius = "50%";
-        dotEl.style.boxShadow = "0 0 10px #00e676";
+      const dotMarker = new mapboxgl.Marker(dotEl).setLngLat(pin1).addTo(map);
 
-        (window as any).currentDot = new mapboxgl.Marker(dotEl).setLngLat([-75.78, posY]).addTo(map);
+      let progress = 0;
+      const speed = 0.003; // Medium speed
 
-        requestAnimationFrame(animateDot);
+      const animate = () => {
+        progress += speed;
+        if (progress >= 1) progress = 0; // Loop back to start
+
+        const lng = pin1[0] + (pin2[0] - pin1[0]) * progress;
+        const lat = pin1[1] + (pin2[1] - pin1[1]) * progress;
+
+        dotMarker.setLngLat([lng, lat]);
+
+        // Blink effect
+        const blink = 0.5 + 0.5 * Math.sin(progress * Math.PI * 8);
+        dotEl.style.opacity = String(blink);
+
+        requestAnimationFrame(animate);
       };
 
-      setTimeout(animateDot, 1000);
+      setTimeout(animate, 800);
     });
 
-    return () => {
-      if ((window as any).currentDot) {
-        (window as any).currentDot.remove();
-      }
-      map.remove();
-    };
+    return () => map.remove();
   }, []);
 
   return (
     <div
       ref={mapContainer}
-      className="absolute inset-0 z-0 overflow-hidden translate-y-[-8px]"
+      className="absolute inset-0 z-0 overflow-hidden"
       style={{ opacity: 0.4 }}
     />
   );
-}
-
-declare global {
-  interface Window {
-    currentDot?: mapboxgl.Marker;
-  }
 }
