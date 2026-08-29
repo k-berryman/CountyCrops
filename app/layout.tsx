@@ -27,3 +27,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
+export const metadata: Metadata = {
+  title: "County Crops | Eastern Shore Farmers Market",
+  description: "Digital farmers market on the Eastern Shore of Virginia. Pre-order fresh local produce delivered to your door every Friday and Saturday.",
+  openGraph: {
+    title: "County Crops | Local Food Delivered",
+    description: "Connecting Eastern Shore farms to your neighborhood. Fresh produce, delivered.",
+    type: "website",
+    url: "https://countycrops.com",
+  },
+};
