@@ -85,7 +85,7 @@ export default function Home() {
 
           {/* Shop multiple farms tag */}
           <div className="flex justify-center mb-2">
-            <span className="text-gray-300 text-sm md:text-base font-medium">
+            <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-3 py-1 rounded-full text-xs md:text-sm font-bold">
               Shop multiple farms in one order.
             </span>
           </div>
