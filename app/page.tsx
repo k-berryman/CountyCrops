@@ -80,7 +80,7 @@ export default function Home() {
             Local food, delivered.
           </h1>
           <p className="text-base md:text-xl text-gray-300 mb-5 max-w-xl mx-auto px-2">
-            Digital Farmers Market. Delivering ESVA produce and goods to your front door.
+            Digital Farmers Market. Delivering ESVA produce to your front door. Shop multiple farms in one order.
           </p>
 
           {/* Tags - County tags only */}
