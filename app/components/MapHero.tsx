@@ -13,41 +13,37 @@ export default function MapHero() {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v10",
-      center: [-75.9, 37.62],
-      zoom: 10.5,
+      center: [-75.82, 37.5],
+      zoom: 9,
       interactive: false,
     });
 
     map.on("load", () => {
-      // Major ESVA towns along the peninsula
+      // Towns along Route 13 from north to south
       const towns: Array<{ name: string, lngLat: [number, number], color: string }> = [
-        { name: "Onley", lngLat: [-75.82, 37.70], color: "#00e676" },
-        { name: "Melfa", lngLat: [-75.79, 37.67], color: "#00e676" },
-        { name: "Parksley", lngLat: [-75.64, 37.80], color: "#00e676" },
-        { name: "Accamac", lngLat: [-75.75, 37.63], color: "#ffd54f" },
-        { name: "Exmore", lngLat: [-75.92, 37.55], color: "#ffd54f" },
-        { name: "Nassawadox", lngLat: [-75.97, 37.48], color: "#ffd54f" },
+        { name: "Onley", lngLat: [-75.78, 37.69], color: "#00e676" },
+        { name: "Exmore", lngLat: [-75.83, 37.53], color: "#ffd54f" },
       ];
 
-      // Create pins for each town
+      // Create pins
       towns.forEach((town, i) => {
         const el = document.createElement("div");
-        el.style.width = "10px";
-        el.style.height = "10px";
+        el.style.width = "12px";
+        el.style.height = "12px";
         el.style.backgroundColor = town.color;
         el.style.borderRadius = "50%";
-        el.style.boxShadow = "0 0 6px rgba(255,255,255,0.6)";
+        el.style.boxShadow = "0 0 8px " + town.color;
         el.style.opacity = "0";
         el.style.transition = "opacity 0.5s";
-        
+
         new mapboxgl.Marker(el).setLngLat(town.lngLat).addTo(map);
-        setTimeout(() => { el.style.opacity = "1"; }, 800 + i * 300);
+        setTimeout(() => { el.style.opacity = "1"; }, 800 + i * 600);
       });
 
-      // Vertical delivery route from north to south
+      // Delivery route along Route 13 from Onley to Exmore
       setTimeout(() => {
         map.addLayer({
-          id: "vertical-route",
+          id: "delivery-route",
           type: "line",
           source: {
             type: "geojson",
@@ -57,12 +53,11 @@ export default function MapHero() {
               geometry: {
                 type: "LineString",
                 coordinates: [
-                  [-75.82, 37.70],
-                  [-75.79, 37.67],
-                  [-75.64, 37.80],
-                  [-75.75, 37.63],
-                  [-75.92, 37.55],
-                  [-75.97, 37.48],
+                  [-75.78, 37.69], // Onley
+                  [-75.77, 37.65], // Along Route 13
+                  [-75.80, 37.60], // Along Route 13
+                  [-75.82, 37.56], // Along Route 13
+                  [-75.83, 37.53], // Exmore
                 ],
               },
             },
@@ -70,11 +65,11 @@ export default function MapHero() {
           layout: {},
           paint: {
             "line-color": "#00e676",
-            "line-width": 2,
-            "line-opacity": 0.6,
+            "line-width": 3,
+            "line-opacity": 0.7,
           },
         });
-      }, 3000);
+      }, 2400);
     });
 
     return () => map.remove();

@@ -195,17 +195,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">You Grow It. We Handle the Rest.</h2>
-            <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Here&apos;s everything County Crops takes care of. Every delivery is <span className="font-bold bg-yellow-300 text-black px-2 py-1 rounded">fully commercially insured</span>. <span className="font-bold bg-red-500/20 text-white px-2 py-1 rounded">Zero liability on you</span>.
-            </p>          
+            <p className="text-lg md:text-xl text-gray-400">Everything County Crops takes care of:</p>
+            <div className="flex justify-center mt-3 mb-8">
+              <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-3 py-1 rounded-full text-xs font-bold">
+                Fully Commercially Insured
+              </span>
+            </div>         
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { title: "Takes 30 Seconds", desc: "No app download required to sign up. Just tell us your name and what you grow." },
               { title: "You Keep 88%", desc: "No booth fees. No listing fees. We only earn when you earn." },
-              { title: "Insured & Protected", desc: "Every delivery is fully commercially insured. Zero liability on you." },
-              { title: "Delivered Fresh", desc: "Weekend delivery on Fridays and Saturdays. Farm to door the same day." },
+              { title: "Insured & Protected", desc: "Fully insured. Zero liability on you. Packaged & delivered with care." },              { title: "Delivered Fresh", desc: "Weekend delivery on Fridays and Saturdays. Farm to door the same day." },
               { title: "Paid Securely", desc: "Payments processed securely via Stripe. Direct deposit to your account." },
               { title: "We Handle Customers", desc: "If a customer has an issue, we resolve it. You focus on farming." }
             ].map((card, i) => (
