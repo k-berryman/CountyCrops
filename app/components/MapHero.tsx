@@ -20,7 +20,7 @@ export default function MapHero() {
 
     map.on("load", () => {
       // Major ESVA towns along the peninsula
-      const towns = [
+      const towns: Array<{ name: string, lngLat: [number, number], color: string }> = [
         { name: "Onley", lngLat: [-75.82, 37.70], color: "#00e676" },
         { name: "Melfa", lngLat: [-75.79, 37.67], color: "#00e676" },
         { name: "Parksley", lngLat: [-75.64, 37.80], color: "#00e676" },
@@ -57,12 +57,12 @@ export default function MapHero() {
               geometry: {
                 type: "LineString",
                 coordinates: [
-                  [-75.82, 37.70], // Onley (top)
-                  [-75.79, 37.67], // Melfa
-                  [-75.64, 37.80], // Parksley
-                  [-75.75, 37.63], // Accamac
-                  [-75.92, 37.55], // Exmore
-                  [-75.97, 37.48], // Nassawadox (bottom)
+                  [-75.82, 37.70],
+                  [-75.79, 37.67],
+                  [-75.64, 37.80],
+                  [-75.75, 37.63],
+                  [-75.92, 37.55],
+                  [-75.97, 37.48],
                 ],
               },
             },

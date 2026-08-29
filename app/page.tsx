@@ -195,7 +195,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">You Grow It. We Handle the Rest.</h2>
-            <p className="text-lg md:text-xl text-gray-400">Here&apos;s everything County Crops takes care of.</p>
+            <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
+              Here&apos;s everything County Crops takes care of. Every delivery is <span className="font-bold bg-yellow-300 text-black px-2 py-1 rounded">fully commercially insured</span>. <span className="font-bold bg-red-500/20 text-white px-2 py-1 rounded">Zero liability on you</span>.
+            </p>          
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
