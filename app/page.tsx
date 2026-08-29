@@ -80,17 +80,16 @@ export default function Home() {
             Local food, delivered.
           </h1>
 
+          <p className="text-base md:text-xl text-gray-300 mb-3 max-w-xl mx-auto px-2">
+            Shop multiple farms in one order. Delivering ESVA produce to your front door.
+          </p>
+
           {/* Digital farmers market tag */}
           <div className="flex justify-center mb-2">
             <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-4 py-1.5 rounded-none text-sm md:text-base font-bold">
               Digital Farmers Market
             </span>
           </div>
-          <p className="text-base md:text-xl text-gray-300 mb-3 max-w-xl mx-auto px-2">
-            Shop multiple farms in one order. Delivering ESVA produce to your front door.
-          </p>
-
-
 
           {/* Tags - County tags */}
           <div className="flex justify-center gap-2 mb-5">
