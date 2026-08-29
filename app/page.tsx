@@ -158,6 +158,11 @@ export default function Home() {
       <section id="how-it-works" className="py-16 px-4 max-w-6xl mx-auto">
         <motion.div {...fadeIn} className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">How It Works</h2>
+          <div className="flex justify-center mt-2 mb-4">
+            <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-3 py-1 rounded-full text-xs font-bold">
+              Fully Commercially Insured
+            </span>
+          </div>
           <p className="text-base md:text-lg text-gray-400 max-w-xl mx-auto">
             Modern community-supported agriculture. We coordinate produce from multiple farms into one perfect delivery box for each customer — you never have to juggle pickups from different farms.
           </p>
