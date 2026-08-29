@@ -82,8 +82,8 @@ export default function Home() {
 
           {/* Digital farmers market tag */}
           <div className="flex justify-center mb-2">
-            <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-3 py-1 rounded-full text-xs md:text-sm font-bold">
-              Digital Farmers Market. 
+            <span className="bg-green-500/20 text-green-400 border border-green-500/40 px-4 py-1.5 rounded-none text-sm md:text-base font-bold">
+              Digital Farmers Market
             </span>
           </div>
           <p className="text-base md:text-xl text-gray-300 mb-3 max-w-xl mx-auto px-2">
