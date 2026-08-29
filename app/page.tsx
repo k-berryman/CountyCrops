@@ -68,8 +68,7 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-start text-center px-3 pt-24 md:pt-32">
-        <MapHero />
+      <section className="relative min-h-screen flex flex-col items-center justify-start text-center px-3 pt-24 md:pt-32 overflow-hidden">        <MapHero />
         
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -291,7 +290,7 @@ export default function Home() {
                 </select>
               </div>
 
-              <button type="submit" className="w-full p-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)] text-sm">
+              <button type="submit" className="w-full p-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)] text-sm cursor-pointer">
                 Submit Pre-Order
               </button>
               <p className="text-xs text-gray-500 text-center">No payment until we confirm availability.</p>
@@ -354,9 +353,9 @@ export default function Home() {
                 </select>
               </div>
 
-              <button type="submit" className="w-full p-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)] text-sm">
-                Become a Founding Farm
-              </button>
+            <button type="submit" className="w-full p-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)] text-sm cursor-pointer">
+              Become a Founding Farm
+            </button>
             </form>
           )}
         </div>

@@ -13,48 +13,40 @@ export default function MapHero() {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v10",
-      center: [-75.9, 37.7], // ESVA center
-      zoom: 9,
+      center: [-75.8, 37.5],
+      zoom: 10,
       interactive: false,
     });
 
     map.on("load", () => {
-      // Add a pulsing dot source/layer for animation effect
-     const farms: Array<{ name: string, lngLat: [number, number] }> = [
-        { name: "Onancock", lngLat: [-75.7, 37.6] },
-        { name: "Cape Charles", lngLat: [-76.0, 37.2] },
-        { name: "Parksley", lngLat: [-75.6, 37.8] },
-     ];
-     const home: { name: string, lngLat: [number, number] } = { name: "Home", lngLat: [-75.8, 37.7] };
+      // Saxis pin (top-left)
+      const saxisEl = document.createElement("div");
+      saxisEl.style.width = "14px";
+      saxisEl.style.height = "14px";
+      saxisEl.style.backgroundColor = "#00e676";
+      saxisEl.style.borderRadius = "50%";
+      saxisEl.style.boxShadow = "0 0 10px rgba(0,230,118,0.8)";
+      saxisEl.style.opacity = "0";
+      saxisEl.style.transition = "opacity 0.5s";
+      new mapboxgl.Marker(saxisEl).setLngLat([-75.72, 37.84]).addTo(map);
+      setTimeout(() => { saxisEl.style.opacity = "1"; }, 1000);
 
-      farms.forEach((farm, i) => {
-        const el = document.createElement("div");
-        el.className = "pulse-dot";
-        el.style.width = "12px";
-        el.style.height = "12px";
-        el.style.backgroundColor = "#00e676";
-        el.style.borderRadius = "50%";
-        el.style.opacity = "0";
-        el.style.transition = "opacity 0.5s";
-        
-        new mapboxgl.Marker(el).setLngLat(farm.lngLat).addTo(map);
-        setTimeout(() => { el.style.opacity = "1"; }, 1000 + i * 500);
-      });
+      // Nassawadox pin (bottom-right)
+      const nassEl = document.createElement("div");
+      nassEl.style.width = "14px";
+      nassEl.style.height = "14px";
+      nassEl.style.backgroundColor = "#ffd54f";
+      nassEl.style.borderRadius = "50%";
+      nassEl.style.boxShadow = "0 0 10px rgba(255,213,79,0.8)";
+      nassEl.style.opacity = "0";
+      nassEl.style.transition = "opacity 0.5s";
+      new mapboxgl.Marker(nassEl).setLngLat([-75.85, 37.48]).addTo(map);
+      setTimeout(() => { nassEl.style.opacity = "1"; }, 2000);
 
-      const homeEl = document.createElement("div");
-      homeEl.style.width = "12px";
-      homeEl.style.height = "12px";
-      homeEl.style.backgroundColor = "#ffd54f";
-      homeEl.style.borderRadius = "50%";
-      homeEl.style.opacity = "0";
-      homeEl.style.transition = "opacity 0.5s";
-      new mapboxgl.Marker(homeEl).setLngLat(home.lngLat).addTo(map);
-      setTimeout(() => { homeEl.style.opacity = "1"; }, 2800);
-
-      // Draw line
+      // Animated delivery line
       setTimeout(() => {
         map.addLayer({
-          id: "route",
+          id: "delivery-route",
           type: "line",
           source: {
             type: "geojson",
@@ -63,18 +55,67 @@ export default function MapHero() {
               properties: {},
               geometry: {
                 type: "LineString",
-                coordinates: [[-75.7, 37.6], [-75.8, 37.7]],
+                coordinates: [
+                  [-75.72, 37.84],
+                  [-75.85, 37.48],
+                ],
               },
             },
           },
           layout: {},
           paint: {
             "line-color": "#00e676",
-            "line-width": 4,
+            "line-width": 3,
             "line-opacity": 0.7,
           },
         });
-      }, 3300);
+
+        // Moving glow dot along the route
+        map.addSource("moving-dot", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [{
+              type: "Feature",
+              geometry: { type: "Point", coordinates: [-75.72, 37.84] },
+              properties: {},
+            }],
+          },
+        });
+
+        map.addLayer({
+          id: "moving-dot-layer",
+          type: "circle",
+          source: "moving-dot",
+          paint: {
+            "circle-radius": 6,
+            "circle-color": "#00e676",
+            "circle-opacity": 0.9,
+            "circle-blur": 1,
+          },
+        });
+
+        let progress = 0;
+        const start = [-75.72, 37.84];
+        const end = [-75.85, 37.48];
+
+        const animateDot = () => {
+          progress += 0.005;
+          if (progress > 1) progress = 0;
+          const lng = start[0] + (end[0] - start[0]) * progress;
+          const lat = start[1] + (end[1] - start[1]) * progress;
+          (map.getSource("moving-dot") as mapboxgl.GeoJSONSource).setData({
+            type: "FeatureCollection",
+            features: [{
+              type: "Feature",
+              geometry: { type: "Point", coordinates: [lng, lat] },
+              properties: {},
+            }],
+          });
+          requestAnimationFrame(animateDot);
+        };
+        animateDot();
+      }, 2800);
     });
 
     return () => map.remove();
@@ -83,7 +124,7 @@ export default function MapHero() {
   return (
     <div
       ref={mapContainer}
-      className="absolute inset-0 z-0"
+      className="absolute inset-0 z-0 overflow-hidden"
       style={{ opacity: 0.4 }}
     />
   );
