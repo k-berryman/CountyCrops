@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
       
-      {/* ===== Hero Section ===== */}
+      {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4">
         <MapHero />
         
@@ -94,7 +94,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Animated scroll-down arrow */}
+        {/* Animated scroll-down arrow for mobile */}
         <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 md:hidden"
           animate={{ y: [0, 10, 0] }}
@@ -106,7 +106,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ===== Photo Carousel ===== */}
+      {/* Photo Carousel */}
       <section className="py-12 overflow-hidden relative">
         <div className="absolute top-4 left-4 z-10 bg-primary text-black px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
           Digital Farmers Market App
@@ -148,7 +148,7 @@ export default function Home() {
         <p className="text-center text-gray-500 text-sm mt-4">Tap a photo to pause • Hover to read</p>
       </section>
 
-      {/* ===== How It Works ===== */}
+      {/* How It Works */}
       <section className="py-24 px-4 max-w-6xl mx-auto">
         <motion.div {...fadeIn} className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-white">How It Works</h2>
@@ -174,7 +174,6 @@ export default function Home() {
           ))}
         </div>
         
-        {/* No booth fees - different animation (pulsing glow) */}
         <motion.div 
           {...fadeIn} 
           className="pulse-glow-card mt-12 text-center p-6 rounded-xl"
@@ -183,7 +182,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ===== We Handle Everything ===== */}
+      {/* We Handle Everything */}
       <section className="py-24 px-4 bg-dark">
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-16">
@@ -212,7 +211,6 @@ export default function Home() {
             ))}
           </div>
           
-          {/* If you can send + Questions card */}
           <div className="mt-16 space-y-6">
             <motion.div {...fadeIn} className="text-center p-8 rounded-xl bg-gradient-to-r from-background to-dark border border-gray-800">
               <p className="text-2xl font-bold text-white mb-2">If you can send a text message, you can sell on County Crops.</p>
@@ -231,7 +229,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Pre-Order Form (mobile-optimized) ===== */}
+      {/* Pre-Order Form (Mobile Optimized) */}
       <section id="order" className="py-6 md:py-24 px-4 scroll-mt-0">
         <div className="max-w-2xl mx-auto bg-dark p-4 md:p-8 rounded-2xl border border-gray-800">
           <h2 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2 text-white text-center">Pre-Order for Friday Delivery</h2>
@@ -293,7 +291,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Farmer Form ===== */}
+      {/* Farmer Form (Mobile Optimized) */}
       <section id="farmer" className="py-6 md:py-24 px-4 bg-dark">
         <div className="max-w-2xl mx-auto bg-background p-4 md:p-8 rounded-2xl border border-gray-800">
           <h2 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2 text-white text-center">Join as a Founding Farm</h2>
@@ -355,8 +353,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== About Us ===== */}
+      {/* About Us */}
       <section className="py-16 px-4 text-center">
         <div className="max-w-2xl mx-auto">
           <motion.div {...fadeIn}>
-            <h2 className="text-3xl
+            <h2 className="text-3xl font-bold mb-4 text-white">About County Crops</h2>
+            <p className="text-gray-400 text-lg leading-relaxed">
+              We&apos;re ESVA locals, based out of Onancock, VA. We&apos;re starting with online orders right here on our website, 
+              and our mobile app will be ready for release in about 1 month. Built by the Eastern Shore, for the Eastern Shore.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 border-t border-gray-800">
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-white mb-1">County Crops</h3>
+            <p className="text-gray-500">Launching on the Eastern Shore of Virginia, September 2026</p>
+          </div>
+          <div className="flex flex-wrap gap-6 justify-center">
+            <a href="mailto:hello@countycrops.com" className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors">
+              <span className="text-xl">✉️</span>
+              <span>Email</span>
+            </a>
+            <a href="#" className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors">
+              <span className="text-xl">📸</span>
+              <span>Instagram</span>
+            </a>
+            <a href="sms:7576016266" className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors">
+              <span className="text-xl">🌶️</span>
+              <span>757-601-6266</span>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
