@@ -12,27 +12,14 @@ export default function MapHero() {
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v10",
+      style: "mapbox://clark/mapbox/dark-v10",
       center: [-75.78, 37.60],
       zoom: 9.5,
       interactive: false,
     });
 
-    // Route 13 path from Onley to Cheriton (Virginia only)
-    const routePoints: [number, number][] = [
-      [-75.78, 37.70], // Onley
-      [-75.78, 37.65],
-      [-75.79, 37.60],
-      [-75.80, 37.55],
-      [-75.81, 37.50],
-      [-75.82, 37.45],
-      [-75.82, 37.40],
-      [-75.82, 37.35],
-      [-75.82, 37.29], // Cheriton
-    ];
-
     map.on("load", () => {
-      // Static Route 13 line (faint white)
+      // Simple vertical green line (Route 13 approximation)
       map.addLayer({
         id: "route-line",
         type: "line",
@@ -43,51 +30,56 @@ export default function MapHero() {
             properties: {},
             geometry: {
               type: "LineString",
-              coordinates: routePoints,
+              coordinates: [
+                [-75.78, 37.85], // Top of screen
+                [-75.78, 37.15], // Bottom of screen
+              ],
             },
           },
         },
         layout: {},
         paint: {
           "line-color": "#00e676",
-          "line-width": 2,
-          "line-opacity": 0.5,
+          "line-width": 3,
+          "line-opacity": 0.8,
         },
       });
 
-      // Animated green dot traveling the route
-      let currentIndex = 0;
-      const totalPoints = routePoints.length;
+      // Animated green dot traveling top to bottom
+      let posY = 37.85;
+      const speed = 0.004; // Adjust for desired speed
 
-      const createDot = (point: [number, number]) => {
-        const dot = document.createElement("div");
-        dot.className = "delivery-dot";
-        dot.style.width = "10px";
-        dot.style.height = "10px";
-        dot.style.backgroundColor = "#00e676";
-        dot.style.borderRadius = "50%";
-        dot.style.boxShadow = "0 0 12px #00e676";
-        
-        return new mapboxgl.Marker(dot).setLngLat(point);
-      };
+      const animateDot = () => {
+        posY -= speed;
+        if (posY < 37.15) posY = 37.85; // Loop back to top
 
-      let currentMarker = createDot(routePoints[0]);
-
-      const moveDot = () => {
-        currentIndex++;
-        if (currentIndex >= totalPoints) {
-          currentIndex = 0;
+        // Remove old dot
+        if ((window as any).currentDot) {
+          (window as any).currentDot.remove();
         }
 
-        currentMarker.remove();
-        currentMarker = createDot(routePoints[currentIndex]);
-        currentMarker.addTo(map);
+        // Create new dot
+        const dotEl = document.createElement("div");
+        dotEl.style.width = "10px";
+        dotEl.style.height = "10px";
+        dotEl.style.backgroundColor = "#00e676";
+        dotEl.style.borderRadius = "50%";
+        dotEl.style.boxShadow = "0 0 10px #00e676";
+
+        (window as any).currentDot = new mapboxgl.Marker(dotEl).setLngLat([-75.78, posY]).addTo(map);
+
+        requestAnimationFrame(animateDot);
       };
 
-      setInterval(moveDot, 500); // Move every 500ms
+      setTimeout(animateDot, 1000);
     });
 
-    return () => map.remove();
+    return () => {
+      if ((window as any).currentDot) {
+        (window as any).currentDot.remove();
+      }
+      map.remove();
+    };
   }, []);
 
   return (
@@ -97,4 +89,10 @@ export default function MapHero() {
       style={{ opacity: 0.4 }}
     />
   );
+}
+
+declare global {
+  interface Window {
+    currentDot?: mapboxgl.Marker;
+  }
 }
