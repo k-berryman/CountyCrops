@@ -13,30 +13,28 @@ export default function MapHero() {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v10",
-      center: [-75.78, 37.58],
-      zoom: 9,
+      center: [-75.78, 37.60],
+      zoom: 9.5,
       interactive: false,
     });
 
-    // Route 13 path from north (Mappsville area) to south (Cheriton area)
+    // Route 13 path from Onley to Cheriton (Virginia only)
     const routePoints: [number, number][] = [
-      [-75.74, 37.76],
-      [-75.75, 37.72],
-      [-75.77, 37.68],
+      [-75.78, 37.70], // Onley
       [-75.78, 37.65],
-      [-75.80, 37.60],
-      [-75.82, 37.55],
-      [-75.83, 37.50],
+      [-75.79, 37.60],
+      [-75.80, 37.55],
+      [-75.81, 37.50],
       [-75.82, 37.45],
       [-75.82, 37.40],
       [-75.82, 37.35],
-      [-75.82, 37.29],
+      [-75.82, 37.29], // Cheriton
     ];
 
     map.on("load", () => {
-      // Draw static background line (faint)
+      // Static Route 13 line (faint white)
       map.addLayer({
-        id: "route-base",
+        id: "route-line",
         type: "line",
         source: {
           type: "geojson",
@@ -51,72 +49,52 @@ export default function MapHero() {
         },
         layout: {},
         paint: {
-          "line-color": "#ffffff",
-          "line-width": 1,
-          "line-opacity": 0.15,
+          "line-color": "#00e676",
+          "line-width": 2,
+          "line-opacity": 0.5,
         },
       });
 
-      // Animated delivery dot
-      let index = 0;
-      const dotSpeed = 150; // milliseconds between steps
+      // Animated green dot traveling the route
+      let currentIndex = 0;
+      const totalPoints = routePoints.length;
 
-      const animateDot = () => {
-        const point = routePoints[index];
-
-        // Remove old dot if exists
-        if (window.mapDotMarker) {
-          window.mapDotMarker.remove();
-        }
-
-        // Create new blinking dot
-        const dotEl = document.createElement("div");
-        dotEl.style.width = "8px";
-        dotEl.style.height = "8px";
-        dotEl.style.backgroundColor = "#00e676";
-        dotEl.style.borderRadius = "50%";
-        dotEl.style.boxShadow = "0 0 12px #00e676";
-        dotEl.style.animation = "blink 1s ease-in-out infinite";
-
-        window.mapDotMarker = new mapboxgl.Marker(dotEl).setLngLat(point).addTo(map);
-
-        // Move to next point
-        index = (index + 1) % routePoints.length;
-
-        setTimeout(animateDot, dotSpeed);
+      const createDot = (point: [number, number]) => {
+        const dot = document.createElement("div");
+        dot.className = "delivery-dot";
+        dot.style.width = "10px";
+        dot.style.height = "10px";
+        dot.style.backgroundColor = "#00e676";
+        dot.style.borderRadius = "50%";
+        dot.style.boxShadow = "0 0 12px #00e676";
+        
+        return new mapboxgl.Marker(dot).setLngLat(point);
       };
 
-      setTimeout(animateDot, 800);
+      let currentMarker = createDot(routePoints[0]);
+
+      const moveDot = () => {
+        currentIndex++;
+        if (currentIndex >= totalPoints) {
+          currentIndex = 0;
+        }
+
+        currentMarker.remove();
+        currentMarker = createDot(routePoints[currentIndex]);
+        currentMarker.addTo(map);
+      };
+
+      setInterval(moveDot, 500); // Move every 500ms
     });
 
-    return () => {
-      if (window.mapDotMarker) {
-        window.mapDotMarker.remove();
-      }
-      map.remove();
-    };
+    return () => map.remove();
   }, []);
 
   return (
-    <>
-      <style jsx global>{`
-        @keyframes blink {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-      `}</style>
-      <div
-        ref={mapContainer}
-        className="absolute inset-0 z-0 overflow-hidden -translate-y-2"
-        style={{ opacity: 0.4 }}
-      />
-    </>
+    <div
+      ref={mapContainer}
+      className="absolute inset-0 z-0 overflow-hidden translate-y-[-8px]"
+      style={{ opacity: 0.4 }}
+    />
   );
-}
-
-// Declare marker globally for cleanup
-declare global {
-  interface Window {
-    mapDotMarker?: mapboxgl.Marker;
-  }
 }

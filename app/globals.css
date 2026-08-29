@@ -77,3 +77,12 @@ body {
   0%, 100% { box-shadow: 0 0 5px rgba(0,230,118,0.2), inset 0 0 0 2px #00e676; }
   50% { box-shadow: 0 0 30px rgba(0,230,118,0.5), inset 0 0 0 2px #00e676; }
 }
+
+.delivery-dot {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
