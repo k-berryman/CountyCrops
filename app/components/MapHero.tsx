@@ -18,7 +18,7 @@ export default function MapHero() {
       interactive: false,
     });
 
-    // Route 13 waypoints from Accomac to Nassawadox
+    // Route 13 waypoints from Accomac to below Nassawadox
     const routeCoordinates: [number, number][] = [
       [-75.68, 37.72], // Accomac
       [-75.70, 37.70],
@@ -27,11 +27,13 @@ export default function MapHero() {
       [-75.85, 37.60],
       [-75.90, 37.55],
       [-75.94, 37.50],
-      [-75.97, 37.45], // Nassawadox
+      [-75.95, 37.45],
+      [-75.93, 37.40],
+      [-75.92, 37.35], // Below Nassawadox
     ];
 
     map.on("load", () => {
-      // Glow layer (wide blur underneath)
+      // Glow layer
       map.addLayer({
         id: "route-glow",
         type: "line",
@@ -55,7 +57,7 @@ export default function MapHero() {
         },
       });
 
-      // Main line (sharp, on top)
+      // Main line
       map.addLayer({
         id: "route-main",
         type: "line",
@@ -88,7 +90,7 @@ export default function MapHero() {
       pinAEl.style.border = "2px solid white";
       new mapboxgl.Marker(pinAEl).setLngLat([-75.68, 37.72]).addTo(map);
 
-      // Pin at Nassawadox (bottom)
+      // Pin below Nassawadox (bottom)
       const pinBEl = document.createElement("div");
       pinBEl.style.width = "14px";
       pinBEl.style.height = "14px";
@@ -96,9 +98,9 @@ export default function MapHero() {
       pinBEl.style.borderRadius = "50%";
       pinBEl.style.boxShadow = "0 0 12px #ffd54f";
       pinBEl.style.border = "2px solid white";
-      new mapboxgl.Marker(pinBEl).setLngLat([-75.97, 37.45]).addTo(map);
+      new mapboxgl.Marker(pinBEl).setLngLat([-75.92, 37.35]).addTo(map);
 
-      // Pulse animation: glow breathes in and out
+      // Pulse animation
       let pulseValue = 0.3;
       let increasing = true;
 
