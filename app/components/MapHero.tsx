@@ -13,40 +13,41 @@ export default function MapHero() {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/dark-v10",
-      center: [-75.9, 37.6],
-      zoom: 10,
+      center: [-75.9, 37.62],
+      zoom: 10.5,
       interactive: false,
     });
 
     map.on("load", () => {
-      // Onley pin (top)
-      const onleyEl = document.createElement("div");
-      onleyEl.style.width = "14px";
-      onleyEl.style.height = "14px";
-      onleyEl.style.backgroundColor = "#00e676";
-      onleyEl.style.borderRadius = "50%";
-      onleyEl.style.boxShadow = "0 0 10px rgba(0,230,118,0.8)";
-      onleyEl.style.opacity = "0";
-      onleyEl.style.transition = "opacity 0.5s";
-      new mapboxgl.Marker(onleyEl).setLngLat([-75.82, 37.70]).addTo(map);
-      setTimeout(() => { onleyEl.style.opacity = "1"; }, 1000);
+      // Major ESVA towns along the peninsula
+      const towns = [
+        { name: "Onley", lngLat: [-75.82, 37.70], color: "#00e676" },
+        { name: "Melfa", lngLat: [-75.79, 37.67], color: "#00e676" },
+        { name: "Parksley", lngLat: [-75.64, 37.80], color: "#00e676" },
+        { name: "Accamac", lngLat: [-75.75, 37.63], color: "#ffd54f" },
+        { name: "Exmore", lngLat: [-75.92, 37.55], color: "#ffd54f" },
+        { name: "Nassawadox", lngLat: [-75.97, 37.48], color: "#ffd54f" },
+      ];
 
-      // Machipongo pin (bottom)
-      const machEl = document.createElement("div");
-      machEl.style.width = "14px";
-      machEl.style.height = "14px";
-      machEl.style.backgroundColor = "#ffd54f";
-      machEl.style.borderRadius = "50%";
-      machEl.style.boxShadow = "0 0 10px rgba(255,213,79,0.8)";
-      machEl.style.opacity = "0";
-      machEl.style.transition = "opacity 0.5s";
-      new mapboxgl.Marker(machEl).setLngLat([-75.97, 37.55]).addTo(map);
-      setTimeout(() => { machEl.style.opacity = "1"; }, 2000);
+      // Create pins for each town
+      towns.forEach((town, i) => {
+        const el = document.createElement("div");
+        el.style.width = "10px";
+        el.style.height = "10px";
+        el.style.backgroundColor = town.color;
+        el.style.borderRadius = "50%";
+        el.style.boxShadow = "0 0 6px rgba(255,255,255,0.6)";
+        el.style.opacity = "0";
+        el.style.transition = "opacity 0.5s";
+        
+        new mapboxgl.Marker(el).setLngLat(town.lngLat).addTo(map);
+        setTimeout(() => { el.style.opacity = "1"; }, 800 + i * 300);
+      });
 
-      // Animated delivery line (no moving dot)
+      // Vertical delivery route from north to south
       setTimeout(() => {
         map.addLayer({
-          id: "delivery-route",
+          id: "vertical-route",
           type: "line",
           source: {
             type: "geojson",
@@ -56,8 +57,12 @@ export default function MapHero() {
               geometry: {
                 type: "LineString",
                 coordinates: [
-                  [-75.82, 37.70],
-                  [-75.97, 37.55],
+                  [-75.82, 37.70], // Onley (top)
+                  [-75.79, 37.67], // Melfa
+                  [-75.64, 37.80], // Parksley
+                  [-75.75, 37.63], // Accamac
+                  [-75.92, 37.55], // Exmore
+                  [-75.97, 37.48], // Nassawadox (bottom)
                 ],
               },
             },
@@ -65,11 +70,11 @@ export default function MapHero() {
           layout: {},
           paint: {
             "line-color": "#00e676",
-            "line-width": 3,
-            "line-opacity": 0.7,
+            "line-width": 2,
+            "line-opacity": 0.6,
           },
         });
-      }, 2800);
+      }, 3000);
     });
 
     return () => map.remove();
