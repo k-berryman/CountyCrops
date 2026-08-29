@@ -68,7 +68,7 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-start text-center px-3 pt-16 md:pt-20">
+      <section className="relative min-h-screen flex flex-col items-center justify-start text-center px-3 pt-24 md:pt-32">
         <MapHero />
         
         <motion.div 
@@ -77,15 +77,15 @@ export default function Home() {
           transition={{ duration: 0.8, ease: "easeOut" as const, delay: 0.5 }}
           className="z-10 relative w-full"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-2 tracking-tight text-white leading-tight px-2">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-white leading-tight px-2">
             Local food, delivered.
           </h1>
-          <p className="text-base md:text-xl text-gray-300 mb-3 max-w-xl mx-auto px-2">
+          <p className="text-base md:text-xl text-gray-300 mb-5 max-w-xl mx-auto px-2">
             Delivering ESVA produce and goods to your front door.
           </p>
 
           {/* Tags - Digital Farmers Market App on its own line */}
-          <div className="flex flex-col items-center gap-2 mb-3">
+          <div className="flex flex-col items-center gap-2 mb-5">
             <span className="bg-primary text-black px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               Digital Farmers Market App
             </span>
@@ -100,7 +100,7 @@ export default function Home() {
           </div>
 
           {/* Carousel inside hero */}
-          <div className="overflow-hidden relative mb-4 max-w-3xl mx-auto px-2">
+          <div className="overflow-hidden relative mb-5 max-w-3xl mx-auto px-2">
             <div 
               className="flex gap-2 w-max"
               style={{
@@ -136,8 +136,13 @@ export default function Home() {
               })}
             </div>
           </div>
+
+          {/* CSA Messaging */}
+          <p className="text-sm md:text-base text-gray-400 mb-5 max-w-lg mx-auto px-4">
+            Modern community-supported agriculture. We coordinate produce from multiple farms into one perfect delivery box for each customer — you never have to juggle pickups from different farms.
+          </p>
           
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <a href="#order" className="px-6 py-3 bg-primary text-black font-bold rounded-lg hover:bg-primary-dark transition-all hover:shadow-[0_0_20px_rgba(0,230,118,0.5)]">
               Place a Pre-Order
             </a>
@@ -145,19 +150,18 @@ export default function Home() {
               Join as a Founding Farm
             </a>
           </div>
-        </motion.div>
 
-        {/* Animated scroll-down arrow for mobile - CLICKABLE */}
-        <motion.div
-          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10 md:hidden"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" as const }}
-        >
-          <a href="#how-it-works">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path d="M12 5v14M5 12l7 7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8"/>
-            </svg>
-          </a>
+          {/* Scroll arrow - IN FLOW, visible on all devices */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" as const }}
+          >
+            <a href="#how-it-works" aria-label="Scroll down">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="mx-auto">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
+              </svg>
+            </a>
+          </motion.div>
         </motion.div>
       </section>
 
