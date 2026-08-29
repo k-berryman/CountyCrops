@@ -26,3 +26,54 @@ body {
 .pulse-dot {
   animation: pulse-glow 1.5s infinite;
 }
+
+/* Carousel auto-scroll */
+@keyframes carousel-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Rotating gradient border for cards */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border-card {
+  position: relative;
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 0.75rem;
+  padding: 2px;
+  background: conic-gradient(from var(--border-angle), transparent 50%, #00e676, transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-border 4s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gradient-border-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rotate-border {
+  to { --border-angle: 360deg; }
+}
+
+/* Pulsing glow for highlight cards */
+.pulse-glow-card {
+  animation: pulse-glow-border 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-border {
+  0%, 100% { box-shadow: 0 0 5px rgba(0,230,118,0.2), inset 0 0 0 2px #00e676; }
+  50% { box-shadow: 0 0 30px rgba(0,230,118,0.5), inset 0 0 0 2px #00e676; }
+}
