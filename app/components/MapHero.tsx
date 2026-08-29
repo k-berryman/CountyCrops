@@ -18,41 +18,58 @@ export default function MapHero() {
       interactive: false,
     });
 
-    // Accomac (top pin) and Nassawadox (bottom pin)
-    const pinA: [number, number] = [-75.68, 37.72];
-    const pinB: [number, number] = [-75.97, 37.45];
+    // Route 13 waypoints from Accomac to Nassawadox
+    const routeCoordinates: [number, number][] = [
+      [-75.68, 37.72], // Accomac
+      [-75.70, 37.70],
+      [-75.75, 37.68],
+      [-75.80, 37.65],
+      [-75.85, 37.60],
+      [-75.90, 37.55],
+      [-75.94, 37.50],
+      [-75.97, 37.45], // Nassawadox
+    ];
 
     map.on("load", () => {
-      // Green line between the two pins
-      map.addSource("route", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "LineString",
-            coordinates: [pinA, pinB],
-          },
-        },
-      });
-
+      // Glow layer (wide blur underneath)
       map.addLayer({
         id: "route-glow",
         type: "line",
-        source: "route",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: routeCoordinates,
+            },
+          },
+        },
         layout: {},
         paint: {
           "line-color": "#00e676",
-          "line-width": 10,
-          "line-opacity": 0.2,
+          "line-width": 12,
+          "line-opacity": 0.3,
           "line-blur": 6,
         },
       });
 
+      // Main line (sharp, on top)
       map.addLayer({
         id: "route-main",
         type: "line",
-        source: "route",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: routeCoordinates,
+            },
+          },
+        },
         layout: {},
         paint: {
           "line-color": "#00e676",
@@ -61,60 +78,42 @@ export default function MapHero() {
         },
       });
 
-      // Pin A — Accomac (green)
-      const elA = document.createElement("div");
-      elA.style.width = "14px";
-      elA.style.height = "14px";
-      elA.style.backgroundColor = "#00e676";
-      elA.style.borderRadius = "50%";
-      elA.style.boxShadow = "0 0 12px #00e676";
-      elA.style.border = "2px solid white";
-      new mapboxgl.Marker(elA).setLngLat(pinA).addTo(map);
+      // Pin at Accomac (top)
+      const pinAEl = document.createElement("div");
+      pinAEl.style.width = "14px";
+      pinAEl.style.height = "14px";
+      pinAEl.style.backgroundColor = "#00e676";
+      pinAEl.style.borderRadius = "50%";
+      pinAEl.style.boxShadow = "0 0 12px #00e676";
+      pinAEl.style.border = "2px solid white";
+      new mapboxgl.Marker(pinAEl).setLngLat([-75.68, 37.72]).addTo(map);
 
-      // Pin B — Nassawadox (amber)
-      const elB = document.createElement("div");
-      elB.style.width = "14px";
-      elB.style.height = "14px";
-      elB.style.backgroundColor = "#ffd54f";
-      elB.style.borderRadius = "50%";
-      elB.style.boxShadow = "0 0 12px #ffd54f";
-      elB.style.border = "2px solid white";
-      new mapboxgl.Marker(elB).setLngLat(pinB).addTo(map);
+      // Pin at Nassawadox (bottom)
+      const pinBEl = document.createElement("div");
+      pinBEl.style.width = "14px";
+      pinBEl.style.height = "14px";
+      pinBEl.style.backgroundColor = "#ffd54f";
+      pinBEl.style.borderRadius = "50%";
+      pinBEl.style.boxShadow = "0 0 12px #ffd54f";
+      pinBEl.style.border = "2px solid white";
+      new mapboxgl.Marker(pinBEl).setLngLat([-75.97, 37.45]).addTo(map);
 
-      // Animated delivery dot
-      const dotEl = document.createElement("div");
-      dotEl.style.width = "12px";
-      dotEl.style.height = "12px";
-      dotEl.style.backgroundColor = "#00e676";
-      dotEl.style.borderRadius = "50%";
-      dotEl.style.boxShadow = "0 0 15px #00e676, 0 0 30px #00e676";
-      dotEl.style.border = "2px solid white";
-      dotEl.style.zIndex = "999";
+      // Pulse animation: glow breathes in and out
+      let pulseValue = 0.3;
+      let increasing = true;
 
-      const dotMarker = new mapboxgl.Marker(dotEl).setLngLat(pinA).addTo(map);
-
-      // Animate: dot travels from A to B, loops back to A
-      let progress = 0;
-      const speed = 0.0035;
-
-      const animate = () => {
-        progress += speed;
-        if (progress >= 1) {
-          progress = 0;
+      const pulse = () => {
+        if (increasing) {
+          pulseValue += 0.02;
+          if (pulseValue >= 0.9) increasing = false;
+        } else {
+          pulseValue -= 0.02;
+          if (pulseValue <= 0.2) increasing = true;
         }
-
-        const lng = pinA[0] + (pinB[0] - pinA[0]) * progress;
-        const lat = pinA[1] + (pinB[1] - pinA[1]) * progress;
-        dotMarker.setLngLat([lng, lat]);
-
-        // Slow blink: opacity pulses using sine wave
-        const blink = 0.4 + 0.6 * Math.sin(progress * Math.PI * 6);
-        dotEl.style.opacity = blink.toFixed(2);
-
-        requestAnimationFrame(animate);
+        map.setPaintProperty("route-glow", "line-opacity", pulseValue);
+        requestAnimationFrame(pulse);
       };
-
-      setTimeout(animate, 600);
+      pulse();
     });
 
     return () => map.remove();
