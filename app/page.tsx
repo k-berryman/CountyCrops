@@ -68,7 +68,7 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-3 py-6 md:py-12">
+      <section className="relative min-h-screen flex flex-col items-center justify-start text-center px-3 pt-16 md:pt-20">
         <MapHero />
         
         <motion.div 
@@ -77,24 +77,26 @@ export default function Home() {
           transition={{ duration: 0.8, ease: "easeOut" as const, delay: 0.5 }}
           className="z-10 relative w-full"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-3 tracking-tight text-white leading-tight px-2">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-2 tracking-tight text-white leading-tight px-2">
             Local food, delivered.
           </h1>
           <p className="text-base md:text-xl text-gray-300 mb-3 max-w-xl mx-auto px-2">
-            Connecting Eastern Shore farms to your neighborhood. First delivery: Friday, September 6th.
+            Delivering ESVA produce and goods to your front door.
           </p>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 justify-center mb-3 px-2">
-            <span className="bg-primary text-black px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+          {/* Tags - Digital Farmers Market App on its own line */}
+          <div className="flex flex-col items-center gap-2 mb-3">
+            <span className="bg-primary text-black px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               Digital Farmers Market App
             </span>
-            <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-3 py-1 rounded-full text-xs font-bold">
-              Accomack
-            </span>
-            <span className="bg-purple-500/20 text-purple-400 border border-purple-500/40 px-3 py-1 rounded-full text-xs font-bold">
-              Northampton
-            </span>
+            <div className="flex gap-2">
+              <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-3 py-1 rounded-full text-xs font-bold">
+                Accomack
+              </span>
+              <span className="bg-purple-500/20 text-purple-400 border border-purple-500/40 px-3 py-1 rounded-full text-xs font-bold">
+                Northampton
+              </span>
+            </div>
           </div>
 
           {/* Carousel inside hero */}
@@ -133,7 +135,6 @@ export default function Home() {
                 );
               })}
             </div>
-            <p className="text-center text-gray-500 text-xs mt-2">Tap a photo to pause • Hover to read</p>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -148,7 +149,7 @@ export default function Home() {
 
         {/* Animated scroll-down arrow for mobile - CLICKABLE */}
         <motion.div
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 md:hidden"
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10 md:hidden"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" as const }}
         >
@@ -244,7 +245,7 @@ export default function Home() {
       {/* Pre-Order Form (Mobile Optimized) */}
       <section id="order" className="py-4 md:py-16 px-3 scroll-mt-0">
         <div className="max-w-2xl mx-auto bg-dark p-4 md:p-6 rounded-2xl border border-gray-800">
-          <h2 className="text-xl md:text-3xl font-bold mb-1 text-white text-center">Pre-Order for Friday Delivery</h2>
+          <h2 className="text-xl md:text-3xl font-bold mb-1 text-white text-center">Pre-Order for Weekend Delivery</h2>
           <p className="text-gray-400 mb-4 text-center text-sm">Be first to shop from local farms. Free stickers at launch.</p>
           
           {buyerSubmitted ? (
